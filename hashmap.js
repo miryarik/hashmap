@@ -1,17 +1,36 @@
 class HashMap {
     #table;
-    #length;
 
-    constructor(loadFactor, capacity) {
+    constructor(loadFactor, capacity = 16) {
         this.loadFactor = loadFactor;
         this.capacity = capacity;
         this.#table = new Array(capacity);
-        this.#length = 0;
 
         // all buckets are linked lists
         for (let i = 0; i < capacity; i++) {
             this.#table[i] = new LinkedList();
         }
+    }
+
+    grow() {
+
+        const entries = this.entries();
+
+        // make a new map
+        // with the table of double capacity
+        this.capacity = this.capacity * 2;
+        this.#table = new Array(this.capacity);
+        // all buckets are linked lists
+        for (let i = 0; i < this.capacity; i++) {
+            this.#table[i] = new LinkedList();
+        }
+
+        // then take all the current entries and 
+        // set them into in
+        entries.forEach(entry => {
+            this.set(entry[0], entry[1]);
+        });
+        
     }
 
     entries() {
@@ -63,7 +82,6 @@ class HashMap {
         if (idx != null) {
             // remove the node at that position
             bucket.removeAt(idx);
-            this.#length--;
             // return true
             return true;
         } else {
@@ -137,31 +155,25 @@ class HashMap {
         this.#table.forEach((bucket) => {
             bucket.head = null;
         });
-
-        // what a headache, should've just used the loop
-        this.#length = 0
     }
 
-    get length() {
+    length() {
         // returns the number of stored keys
 
-        // let count = 0;
+        let count = 0;
 
-        // // for each bucket
-        // this.#table.forEach(bucket => {
-        //     count += bucket.size;
-        // })
+        // for each bucket
+        this.#table.forEach(bucket => {
+            count += bucket.size;
+        })
 
-        // return count;
+        return count;
 
         // use a getter for length instead
         // and now we need a setter as well
-        return this.#length;
+        // return this.#length;
     }
 
-    set length(val) {
-        console.error("Cannot access private field 'length'");
-    }
 
     set(key, value) {
         // find corresponding bucket
@@ -177,7 +189,10 @@ class HashMap {
             bucket.append({ key, value });
         }
 
-        this.#length++;
+        // if load factor has been crossed
+        // then grow hashtable
+        if (this.length() > this.loadFactor * this.capacity) this.grow();
+
     }
 
     print() {
