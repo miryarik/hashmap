@@ -72,6 +72,30 @@ class HashMap {
 
     }
 
+    values() {
+        // returns an array containing all the stored values
+        
+        let values = [];
+
+        this.#table.forEach(bucket => {
+
+            let current = bucket.head;
+
+            // as long as current node exists
+            // add the value of current node to values
+            // move to next node
+
+            while (current != null) {
+                values.push(current.data.value);
+                current = current.next;
+            }
+
+        }); 
+
+        return values;
+
+    }
+
     has(key) {
         // find what bucket the key maps to
         const bucket = this.#table[this.#hash(key)];
