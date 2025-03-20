@@ -13,7 +13,6 @@ class HashMap {
     }
 
     grow() {
-
         const entries = this.entries();
 
         // make a new map
@@ -25,21 +24,19 @@ class HashMap {
             this.#table[i] = new LinkedList();
         }
 
-        // then take all the current entries and 
+        // then take all the current entries and
         // set them into in
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             this.set(entry[0], entry[1]);
         });
-        
     }
 
     entries() {
         // returns an array containing all the stored key-value pairs
-        
+
         let entries = [];
 
-        this.#table.forEach(bucket => {
-
+        this.#table.forEach((bucket) => {
             let current = bucket.head;
 
             // as long as current node exists
@@ -50,11 +47,9 @@ class HashMap {
                 entries.push([current.data.key, current.data.value]);
                 current = current.next;
             }
-
-        }); 
+        });
 
         return entries;
-
     }
 
     get(key) {
@@ -92,11 +87,10 @@ class HashMap {
 
     keys() {
         // returns an array containing all the stored keys
-        
+
         let keys = [];
 
-        this.#table.forEach(bucket => {
-
+        this.#table.forEach((bucket) => {
             let current = bucket.head;
 
             // as long as current node exists
@@ -107,20 +101,17 @@ class HashMap {
                 keys.push(current.data.key);
                 current = current.next;
             }
-
-        }); 
+        });
 
         return keys;
-
     }
 
     values() {
         // returns an array containing all the stored values
-        
+
         let values = [];
 
-        this.#table.forEach(bucket => {
-
+        this.#table.forEach((bucket) => {
             let current = bucket.head;
 
             // as long as current node exists
@@ -131,11 +122,9 @@ class HashMap {
                 values.push(current.data.value);
                 current = current.next;
             }
-
-        }); 
+        });
 
         return values;
-
     }
 
     has(key) {
@@ -163,9 +152,9 @@ class HashMap {
         let count = 0;
 
         // for each bucket
-        this.#table.forEach(bucket => {
+        this.#table.forEach((bucket) => {
             count += bucket.size;
-        })
+        });
 
         return count;
 
@@ -173,7 +162,6 @@ class HashMap {
         // and now we need a setter as well
         // return this.#length;
     }
-
 
     set(key, value) {
         // find corresponding bucket
@@ -192,7 +180,6 @@ class HashMap {
         // if load factor has been crossed
         // then grow hashtable
         if (this.length() > this.loadFactor * this.capacity) this.grow();
-
     }
 
     print() {
@@ -216,5 +203,15 @@ class HashMap {
         }
 
         return hashCode;
+
+
+
+        // let hash = 31;
+        // for (let i = 0; i < key.length; i++) {
+        //     // XOR for better distribution
+        //     hash = (hash * 31) ^ key.charCodeAt(i); 
+        // }
+        // // Convert to unsigned 32-bit integer
+        // return ((hash >>> 3) % this.capacity);
     }
 }
