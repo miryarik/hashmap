@@ -28,6 +28,17 @@ class HashMap {
         } else return null;
     }
 
+    has(key) {
+        // find what bucket the key maps to
+        const bucket = this.#table[this.#hash(key)];
+
+        // see if the bucket has the key
+        const idx = bucket.find(key);
+    
+        if (idx != null) return true;
+        else return false;
+    }
+
     set(key, value) {
         // find corresponding bucket
         const bucket = this.#table[this.#hash(key)];
