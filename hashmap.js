@@ -1,10 +1,12 @@
 class HashMap {
     #table;
+    #length;
 
     constructor(loadFactor, capacity) {
         this.loadFactor = loadFactor;
         this.capacity = capacity;
         this.#table = new Array(capacity);
+        this.#length = 0;
 
         // all buckets are linked lists
         for (let i = 0; i < capacity; i++) {
@@ -37,13 +39,17 @@ class HashMap {
         if (idx != null) {
             // remove the node at that position
             bucket.removeAt(idx);
+            this.#length--;
             // return true
             return true;
-
         } else {
             // if there is no such node return false
             return false;
         }
+    }
+
+    keys() {
+        // returns an array contain
     }
 
     has(key) {
@@ -55,6 +61,38 @@ class HashMap {
 
         if (idx != null) return true;
         else return false;
+    }
+
+    clear() {
+        // remove all entries from the map
+        // make heads of all buckets point to null
+        this.#table.forEach((bucket) => {
+            bucket.head = null;
+        });
+
+        // what a headache, should've just used the loop
+        this.#length = 0
+    }
+
+    get length() {
+        // returns the number of stored keys
+
+        // let count = 0;
+
+        // // for each bucket
+        // this.#table.forEach(bucket => {
+        //     count += bucket.size;
+        // })
+
+        // return count;
+
+        // use a getter for length instead
+        // and now we need a setter as well
+        return this.#length;
+    }
+
+    set length(val) {
+        console.error("Cannot access private field 'length'");
     }
 
     set(key, value) {
@@ -70,6 +108,8 @@ class HashMap {
             // if not then put the key-value in bucket
             bucket.append({ key, value });
         }
+
+        this.#length++;
     }
 
     print() {
