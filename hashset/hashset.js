@@ -1,6 +1,6 @@
 import LinkedList from "./LinkedList.js";
 
-class HashMap {
+class HashSet {
     #table;
 
     constructor(loadFactor, capacity = 16) {
@@ -28,8 +28,8 @@ class HashMap {
 
         // then take all the current entries and
         // set them into in
-        entries.forEach((entry) => {
-            this.set(entry[0], entry[1]);
+        entries.forEach(entry => {
+            this.set(entry);
         });
     }
 
@@ -46,28 +46,12 @@ class HashMap {
             // move to next node
 
             while (current != null) {
-                entries.push([current.data.key, current.data.value]);
+                entries.push(current.data);
                 current = current.next;
             }
         });
 
         return entries;
-    }
-
-    get(key) {
-        // returns the value assigned to this key
-
-        // find which bucket the key maps to
-        const bucket = this.#table[this.#hash(key)];
-
-        // find where the key is in the bucket
-        const idx = bucket.find(key);
-
-        // return the value at that node
-        // if there is no such key return null
-        if (idx != null) {
-            return bucket.at(idx).data.value;
-        } else return null;
     }
 
     remove(key) {
@@ -100,33 +84,12 @@ class HashMap {
             // move to next node
 
             while (current != null) {
-                keys.push(current.data.key);
+                keys.push(current.data);
                 current = current.next;
             }
         });
 
         return keys;
-    }
-
-    values() {
-        // returns an array containing all the stored values
-
-        let values = [];
-
-        this.#table.forEach((bucket) => {
-            let current = bucket.head;
-
-            // as long as current node exists
-            // add the value of current node to values
-            // move to next node
-
-            while (current != null) {
-                values.push(current.data.value);
-                current = current.next;
-            }
-        });
-
-        return values;
     }
 
     has(key) {
@@ -165,7 +128,7 @@ class HashMap {
         // return this.#length;
     }
 
-    set(key, value) {
+    set(key) {
         // find corresponding bucket
         const bucket = this.#table[this.#hash(key)];
 
@@ -173,10 +136,10 @@ class HashMap {
         const idx = bucket.find(key);
         if (idx !== null) {
             // then overwrite its value
-            bucket.at(idx).data = { key, value };
+            bucket.at(idx).data = key;
         } else {
             // if not then put the key-value in bucket
-            bucket.append({ key, value });
+            bucket.append(key);
         }
 
         // if load factor has been crossed
