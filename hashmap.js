@@ -14,6 +14,30 @@ class HashMap {
         }
     }
 
+    entries() {
+        // returns an array containing all the stored key-value pairs
+        
+        let entries = [];
+
+        this.#table.forEach(bucket => {
+
+            let current = bucket.head;
+
+            // as long as current node exists
+            // add the [key, value] of current node to entries
+            // move to next node
+
+            while (current != null) {
+                entries.push([current.data.key, current.data.value]);
+                current = current.next;
+            }
+
+        }); 
+
+        return entries;
+
+    }
+
     get(key) {
         // returns the value assigned to this key
 
