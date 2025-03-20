@@ -49,7 +49,27 @@ class HashMap {
     }
 
     keys() {
-        // returns an array contain
+        // returns an array containing all the stored keys
+        
+        let keys = [];
+
+        this.#table.forEach(bucket => {
+
+            let current = bucket.head;
+
+            // as long as current node exists
+            // add the key of current node to keys
+            // move to next node
+
+            while (current != null) {
+                keys.push(current.data.key);
+                current = current.next;
+            }
+
+        }); 
+
+        return keys;
+
     }
 
     has(key) {
