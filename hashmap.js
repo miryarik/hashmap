@@ -18,9 +18,9 @@ class HashMap {
 
         // if key already exists in bucket
         const idx = bucket.find(key);
-        if (idx) {
-            // if yes, then overwrite its value
-            bucket.at(idx).data.key = value;
+        if (idx !== null) {
+            // then overwrite its value
+            bucket.at(idx).data = {key, value};
         }
         else {
             // if not then put the key-value in bucket

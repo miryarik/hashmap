@@ -108,23 +108,23 @@ class LinkedList {
         else return false;
     }
 
-    find(data) {
-        // return index of node with data
+    find(key) {
+        // return index of node with given key
 
         // if list is empty return
-        if (this.head === null) return;
+        if (this.head === null) return null;
 
-        // else traverse entire list until the data is seen
+        // else traverse entire list until the key is seen
         // or end is reached
         let current = this.head;
         let idx = 0;
-        while (current.data != data && current.next != null) {
+        while (current.data.key != key && current.next != null) {
             current = current.next;
             idx++;
         }
         
         // return true if it is seen, false ow
-        if (current.data == data) return idx;
+        if (current.data.key == key) return idx;
         else return null;
     }
 
@@ -234,14 +234,5 @@ class Node {
         this.next = next;
     }
 }
-
-// testing
-
-list = new LinkedList();
-list.append("gos");
-list.append("sog");
-str = list.toString();
-console.log(str);
-
 
 
