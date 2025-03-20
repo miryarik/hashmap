@@ -28,13 +28,31 @@ class HashMap {
         } else return null;
     }
 
+    remove(key) {
+        // find what bucket key maps to
+        const bucket = this.#table[this.#hash(key)];
+
+        // find where the key is in the bucket
+        const idx = bucket.find(key);
+        if (idx != null) {
+            // remove the node at that position
+            bucket.removeAt(idx);
+            // return true
+            return true;
+
+        } else {
+            // if there is no such node return false
+            return false;
+        }
+    }
+
     has(key) {
         // find what bucket the key maps to
         const bucket = this.#table[this.#hash(key)];
 
         // see if the bucket has the key
         const idx = bucket.find(key);
-    
+
         if (idx != null) return true;
         else return false;
     }
