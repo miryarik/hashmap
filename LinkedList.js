@@ -1,4 +1,4 @@
-class LinkedList {
+export default class LinkedList {
     constructor() {
         // linked list is recognised by a head
         // size is for utility

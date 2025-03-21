@@ -1,15 +1,16 @@
-import LinkedList from "./LinkedList.js";
+import LinkedList from "./linkedList-1.js";
 
 class HashSet {
     #table;
+    #capacity;
 
     constructor(loadFactor, capacity = 16) {
         this.loadFactor = loadFactor;
-        this.capacity = capacity;
-        this.#table = new Array(capacity);
+        this.#capacity = capacity;
+        this.#table = new Array(this.#capacity);
 
         // all buckets are linked lists
-        for (let i = 0; i < capacity; i++) {
+        for (let i = 0; i < this.#capacity; i++) {
             this.#table[i] = new LinkedList();
         }
     }
@@ -18,11 +19,11 @@ class HashSet {
         const entries = this.entries();
 
         // make a new map
-        // with the table of double capacity
-        this.capacity = this.capacity * 2;
-        this.#table = new Array(this.capacity);
+        // with the table of double #capacity
+        this.#capacity = this.#capacity * 2;
+        this.#table = new Array(this.#capacity);
         // all buckets are linked lists
-        for (let i = 0; i < this.capacity; i++) {
+        for (let i = 0; i < this.#capacity; i++) {
             this.#table[i] = new LinkedList();
         }
 
@@ -144,7 +145,11 @@ class HashSet {
 
         // if load factor has been crossed
         // then grow hashtable
-        if (this.length() > this.loadFactor * this.capacity) this.grow();
+        if (this.length() > this.loadFactor * this.#capacity) this.grow();
+    }
+
+    get capacity() {
+        return this.#capacity;
     }
 
     #hash(key) {
@@ -160,7 +165,7 @@ class HashSet {
             hashCode = primeNumber * hashCode + key.charCodeAt(i);
 
             // keep it within table length
-            hashCode = hashCode % this.capacity;
+            hashCode = hashCode % this.#capacity;
         }
 
         return hashCode;
@@ -173,6 +178,6 @@ class HashSet {
         //     hash = (hash * 31) ^ key.charCodeAt(i); 
         // }
         // // Convert to unsigned 32-bit integer
-        // return ((hash >>> 3) % this.capacity);
+        // return ((hash >>> 3) % this.#capacity);
     }
 }
